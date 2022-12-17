@@ -67,18 +67,6 @@ def get_elf_info(elf):
     [99, 150, 51]
     """
     elf_start, elf_end = elf.split("-")
-    elf_length = diff(int(elf_start), int(elf_end))
+    elf_length = abs(int(elf_start) - int(elf_end))
 
     return [int(elf_start), int(elf_end), elf_length]
-
-
-def diff(num1, num2):
-    """Find the distance between two numbers.
-    >>> diff(10, 6)
-    4
-
-    >>> diff(6, 10)
-    4
-    """
-
-    return abs(num1 - num2)
