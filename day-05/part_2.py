@@ -1,8 +1,10 @@
 from helpers import make_box_dict
 
-def sort_boxes(box_dict):
+def cratemover_9001(box_dict):
     """Work with a dictionary of boxes and instructions in a text file to sort 
-    those boxes and return the top boxes in each stack.
+    those boxes and return the top boxes in each stack. Rather than moving boxes 
+    one at a time, the CrateMover 9001 moves stacks of boxes, maintaining their 
+    order.
 
     Sample dictionary:
          {
@@ -18,9 +20,8 @@ def sort_boxes(box_dict):
         move 1 from 1 to 2
 
     Sample output: 
-        'CMZ'
+        'MCD'
     """
-    print("running sort_boxes")
 
     with open('instructions.txt', 'r', encoding="utf-8") as f:
         lines = f.readlines()
@@ -32,17 +33,16 @@ def sort_boxes(box_dict):
         from_stack = int(dirs[3])
         to_stack = int(dirs[5])
 
-        # repeat removing a box from the from_stack and placing it on the 
-        # to_stack "move" number of times
-        for i in range(move_num):
-            # remove top box from old stack
-            box_to_move = box_dict[from_stack].pop()
-            # place on the new stack
-            box_dict[to_stack].append(box_to_move)
+        # move number is now the length of the slice to take from the end of the 
+        # from_stack and append to the end of the to_stack
+        box_dict[to_stack] += box_dict[from_stack][-move_num:]
+
+        # delete the moved boxes from the from_stack
+        del box_dict[from_stack][-move_num:]
 
     # loop through dictionary, get the last item from each value array, and turn 
     # those items into a string
     print(''.join([stack[-1] for stack in box_dict.values()]))
 
 stacks = make_box_dict()
-sort_boxes(stacks)
+cratemover_9001(stacks)
