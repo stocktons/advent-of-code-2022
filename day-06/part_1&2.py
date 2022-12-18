@@ -1,5 +1,7 @@
-def find_marker():
-    """Analyze a string to find the first four-letter group that has no duplicate
+def find_marker(marker_length):
+    """
+    Part 1
+    Analyze a string to find the first four-letter group that has no duplicate
     letters in it. Return the index + 1 of the last letter of this group.
 
     Examples:
@@ -7,6 +9,9 @@ def find_marker():
     nppdvjthqldpwncqszvftbrmjlhg: returns 6
     nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg: returns 10
     zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw: returns 11
+
+    Part 2
+    Do the same thing, but for 14-letter groups
     """
 
     with open('signal.txt', 'r', encoding="utf-8") as f:
@@ -15,14 +20,14 @@ def find_marker():
 
         # create pointers for a sliding window approach
         pointer_1_idx = 0
-        pointer_2_idx = 4
+        pointer_2_idx = marker_length
 
         while pointer_2_idx < len(signal):
             marker = signal[pointer_1_idx:pointer_2_idx]
 
             # create a set of the letters in the window. If the length is still 4, 
             # there are no duplicates, and we've found our marker.
-            if len(set(marker)) == 4:
+            if len(set(marker)) == marker_length:
                 print(pointer_2_idx)
                 break
 
@@ -31,5 +36,9 @@ def find_marker():
             else:
                 pointer_1_idx += 1
                 pointer_2_idx += 1
-        
-find_marker()
+
+# Part 1:        
+find_marker(4)
+
+# Part 2: 
+find_marker(14)
