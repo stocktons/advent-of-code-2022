@@ -3,22 +3,22 @@ from collections import deque
 class TreeNode:
     "A single node in a tree."
 
-    def __init__(self, name, val, children = [], parent = None):
-        self.name = name
-        self.val = 0 if val == dir else val
+    def __init__(self, file_name, val, parent = None, children = []):
+        self.file_name = file_name
+        self.val = 0 if val == "dir" else val
         self.children = children
-        self.parent = None
+        self.parent = parent
         for child in self.children:
             child.parent = self
 
     def __repr__(self):
-        return f"< name: {self.name}, value: {self.val}, parent: {self.parent.name} >"
+        return f"< file_name: {self.file_name}, value: {self.val}, num_children: {len(self.children)}, parent: {self.parent}  >"
 
     def sum_values(self):
         """Add up all values of invoking node and its children. 
         Returns sum as an integer."""
 
-        sum = self.val
+        sum = int(self.val)
         # print("self.val in sum_values", self.val)
 
         for child in self.children:
@@ -27,9 +27,7 @@ class TreeNode:
         return sum
 
     def add_child(self, child):
-        new_child = self.children.append(child)
-        new_child.parent = self
-
+        self.children.append(child)
 
 class Tree:
     def __init__(self, root = None):
@@ -37,7 +35,7 @@ class Tree:
         self.parent = None
     
     def __repr__(self):
-        return f"< name: {self.root.name}, value: {self.root.val}, children: {self.root.children}>"
+        return f"< file_name: {self.root.file_name}, value: {self.root.val}, num_children: {len(self.root.children)}>"
 
     def sum_values(self):
         """Add up all values in the tree."""
@@ -46,6 +44,20 @@ class Tree:
             return 0
 
         return self.root.sum_values()
+
+    def find(self, dir_name):
+        to_visit = deque()
+        to_visit.append(self.root)
+
+        while len(to_visit):
+            current = to_visit.popleft()
+
+            if current.file_name == dir_name:
+                return current
+
+            for child in current.children:
+                to_visit.append(child)
+
 
     def find_sum_all_dirs_less_than_100000(self):
 
@@ -57,11 +69,10 @@ class Tree:
         while len(to_visit):
             current = to_visit.popleft()
             dir_total = current.sum_values()
-            # print("name and value: ", current.name, current.sum_values())
+            # print("file_name and value: ", current.file_name, current.sum_values())
 
             if dir_total <= 100000: 
                 total += dir_total
-                print("adding to total", current.name, dir_total, total)
 
             for child in current.children:
                 if child.children != []:
@@ -71,26 +82,27 @@ class Tree:
         return total
 
 sample_tree = Tree(
-    TreeNode("/", 0, [ 
-        TreeNode("a", 0, [ 
-            TreeNode("e", 0, [
-                TreeNode("i", 584, [])
+    TreeNode("/", 0, None, [ 
+        TreeNode("a", 0, None, [ 
+            TreeNode("e", 0, None, [
+                TreeNode("i", 584, None, [])
             ]), 
-            TreeNode("f", 29116, []), 
-            TreeNode("g", 2557, []), 
-            TreeNode("h.lst", 62596, []) 
+            TreeNode("f", 29116, None, []), 
+            TreeNode("g", 2557, None, []), 
+            TreeNode("h.lst", 62596, None, []) 
         ]),
         TreeNode("b", 14848514, []), 
         TreeNode("c", 8504156, []), 
-        TreeNode("d", 0, [
-            TreeNode("j", 4060174, []), 
-            TreeNode("d.log", 8033020, []), 
-            TreeNode("d.ext", 5626152, []), 
-            TreeNode("k", 7214296, []) 
+        TreeNode("d", 0, None, [
+            TreeNode("j", 4060174, None, []), 
+            TreeNode("d.log", 8033020, None, []), 
+            TreeNode("d.ext", 5626152, None, []), 
+            TreeNode("k", 7214296, None, []) 
         ])
     ])
 )
 
-# print(sample_tree)
+# print("tree", sample_tree)
+# print("root", sample_tree.root)
 # print(sample_tree.sum_values())
-print(sample_tree.find_sum_all_dirs_less_than_100000())
+# print(sample_tree.find_sum_all_dirs_less_than_100000())
