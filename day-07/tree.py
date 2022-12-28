@@ -19,7 +19,6 @@ class TreeNode:
         Returns sum as an integer."""
 
         sum = int(self.val)
-        # print("self.val in sum_values", self.val)
 
         for child in self.children:
             sum += child.sum_values()
@@ -27,9 +26,13 @@ class TreeNode:
         return sum
 
     def add_child(self, child):
+        """Slightly shorter way to append a child."""
+
         self.children.append(child)
 
 class Tree:
+    """Wrapper class for a group of TreeNodes."""
+
     def __init__(self, root = None):
         self.root = root
         self.parent = None
@@ -46,6 +49,9 @@ class Tree:
         return self.root.sum_values()
 
     def find(self, dir_name):
+        """Search entire tree for a particular file_name. Not needed in final 
+        solution."""
+
         to_visit = deque()
         to_visit.append(self.root)
 
@@ -59,6 +65,9 @@ class Tree:
                 to_visit.append(child)
 
     def find_all(self, dir_name):
+        """Search entire tree for all instances of a particular file_name. Not needed in final 
+        solution, but handy for debugging."""
+
         to_visit = deque()
         to_visit.append(self.root)
         all_matches = []
@@ -74,8 +83,9 @@ class Tree:
 
         return all_matches
 
-
     def find_sum_all_dirs_less_than_100000(self):
+        """Find any directory that sums up to a value of less than 100000. Will 
+        count nested directories' values more than once."""
 
         total = 0
 
@@ -85,19 +95,19 @@ class Tree:
         while len(to_visit):
             current = to_visit.popleft()
             dir_total = current.sum_values()
-            # print("file_name and value: ", current.file_name, current.sum_values())
 
             if dir_total <= 100000: 
-                print("file", current.file_name, "size", dir_total)
                 total += dir_total
 
             for child in current.children:
-                if child.children != []:
+                if child.children != []: # only search directories
                     to_visit.append(child)
         
         print("TOTAL =", total)
         return total
 
+
+######## sample data for testing
 sample_tree = Tree(
     TreeNode("/", 0, None, [ 
         TreeNode("a", 0, None, [ 

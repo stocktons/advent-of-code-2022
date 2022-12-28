@@ -5,26 +5,24 @@ with open('terminal.txt', 'r', encoding="utf-8") as f:
     file_system = Tree(TreeNode("/", "dir"))
     current_dir = file_system.root
     
-    lines = f.readlines()
+    lines = f.readlines()[1:] # start at line 2 since we've already established the root dir
 
-    for line_num, line in enumerate(lines, start=1):
-        # print(line_num)
+    for line in lines:
         if not line.startswith("$"):
             val, file_name = line.split(" ")
             current_dir.add_child(TreeNode(file_name.strip(), val.strip(), current_dir, []))
 
-        if line.startswith("$ cd"):  # this MUST be a child of where I am. use that, not find to go into the right folder. For example, there are 11 btgrv folders!
+        if line.startswith("$ cd"): 
             path = line.split(" ")[2].strip()
   
             if path != "..":
-                next_dir = path
+                for child in current_dir.children:
+                    if child.file_name == path:
+                        next_dir = child
+                        continue
             else:
-                try: 
-                    next_dir = current_dir.parent.file_name
-                except AttributeError:
-                    print("file_name", current_dir.file_name,"line num", line_num)
-                    next_dir = file_system.root.file_name
+                next_dir = current_dir.parent
 
-            current_dir = file_system.find(next_dir) # this is finding the first dir with that name. Are there multiple dirs with the same name?
+            current_dir = next_dir 
 
 file_system.find_sum_all_dirs_less_than_100000()
