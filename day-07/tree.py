@@ -58,6 +58,22 @@ class Tree:
             for child in current.children:
                 to_visit.append(child)
 
+    def find_all(self, dir_name):
+        to_visit = deque()
+        to_visit.append(self.root)
+        all_matches = []
+
+        while len(to_visit):
+            current = to_visit.popleft()
+
+            if current.file_name == dir_name:
+                all_matches.append(current)
+
+            for child in current.children:
+                to_visit.append(child)
+
+        return all_matches
+
 
     def find_sum_all_dirs_less_than_100000(self):
 
@@ -72,6 +88,7 @@ class Tree:
             # print("file_name and value: ", current.file_name, current.sum_values())
 
             if dir_total <= 100000: 
+                print("file", current.file_name, "size", dir_total)
                 total += dir_total
 
             for child in current.children:
