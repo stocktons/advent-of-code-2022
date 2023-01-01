@@ -45,10 +45,31 @@ with open('rope.txt', 'r', encoding="utf-8") as f:
                 return (matrix.index(sub_list), sub_list.index(char))
         raise ValueError("'{char}' is not in list".format(char = char))
 
-    # We started moving from 0, so the starting position must be lowest and leftmost 
+    # We started moving from 0, so the starting position must be highest and leftmost 
     # count over of indexes in our new grid. Select that index and change value to "s"
-    rope_grid[abs(lowest)][abs(leftmost)] = "s"
-    print("starting position", find_val_in_matrix(rope_grid, "s"))
+
+    # sample grid. We started at "s" as 0, but to reorient it to match the indexes 
+    # of a matrix, we have to reorient (0, 0) to be the upper left corner
+    # ......
+    # ......
+    # ......  
+    # ......
+    # s.....
+
+    # highest will always be >= 0, leftmost will always be <= 0
+    rope_grid[highest][abs(leftmost)] = "s"
+    start = find_val_in_matrix(rope_grid, "s")
+    print("starting position", start)
+
+    print(lowest, "lowest") 
+    print(highest, "highest") 
+    print(leftmost, "leftmost")
+    print(rightmost, "rightmost") 
+    print(width, "width")
+    print(height, "height") 
+
+# should be (4, 0) for sample-rope.txt
+# (93, 179) for rope.txt
 
 # from rope.txt: 
 # lowest -142
