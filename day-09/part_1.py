@@ -110,7 +110,7 @@ def track_tail(file, grid, starting_coords):
         row, col = starting_coords
         head_pos = [row, col]
         tail_pos = [row, col]
-        grid[tail_pos[0]][tail_pos[1]] = "#"
+        grid[row][col] = "#"
 
         lines = f.readlines()
 
