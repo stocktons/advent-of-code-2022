@@ -1,7 +1,7 @@
 def create_grid(file):
-    """Reads a text file with directions and steps and finds the maximum dimensions 
-    from the starting point. Creates a grid filled with dots of those dimensions, 
-    and marks the starting position with an 's'. 
+    """Reads a text file with directions and steps and finds the maximum dimensions
+    from the starting point. Creates a grid filled with dots of those dimensions,
+    and marks the starting position with an 's'.
     """
 
     with open(file, 'r', encoding="utf-8") as f:
@@ -43,10 +43,10 @@ def create_grid(file):
         # create rope grid of needed height and width, fill with "."
         rope_grid = [["."] * width for i in range(height)]
 
-        # We started moving from 0, so the starting position must be highest and leftmost 
+        # We started moving from 0, so the starting position must be highest and leftmost
         # count over of indexes in our new grid. Select that index and change value to "s"
 
-        # sample grid. We started at "s" as 0, but to reorient it to match the indexes 
+        # sample grid. We started at "s" as 0, but to reorient it to match the indexes
         # of a matrix, we have to reorient (0, 0) to be the upper left corner, so now
         # in the example becomes (4, 0)
 
@@ -54,7 +54,7 @@ def create_grid(file):
 
         # ......
         # ......
-        # ......  
+        # ......
         # ......
         # s.....
 
@@ -64,7 +64,7 @@ def create_grid(file):
         return rope_grid
 
 def find_val_in_matrix(matrix, char):
-    """Takes in a matrix and a character to search for. Returns the coordinates 
+    """Takes in a matrix and a character to search for. Returns the coordinates
     in a tuple like (row, col). Finds the 's' in the rope_grid, for example.
     """
 
@@ -100,7 +100,7 @@ def find_val_in_matrix(matrix, char):
 #         return matrix
 
 
-rope_grid = create_grid('rope.txt')
+rope_grid = create_grid('sample-rope.txt')
 starting_coords = find_val_in_matrix(rope_grid, 's')
 
 def track_tail(file, grid, starting_coords):
@@ -151,5 +151,5 @@ def track_tail(file, grid, starting_coords):
 
 
 
-track_tail('rope.txt', rope_grid, starting_coords)
+track_tail('sample-rope.txt', rope_grid, starting_coords)
 # print(rope_grid)
